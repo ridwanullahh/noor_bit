@@ -1,0 +1,7 @@
+# BismiLlah Ar-Rahman Ar-Roheem. Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasulu Allah. La hawla wala quwwata illa biLlah. HasbiyaLlah la ilaha illa Hu, alayHi tawakkaltu. SubhanAllah, WalhamduliLlah, La ilaha illa Allah, Allahu Akbar, La hawla wala quwwata illa biLlah.
+
+[variables]
+# Use npm install instead of npm ci to prevent missing optional dependencies on cross-platform deployments
+NIXPACKS_INSTALL_CMD = "npm install"
+
+# BismiLlah Ar-Rahman Ar-Roheem. Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan Rasulu Allah. La hawla wala quwwata illa biLlah. HasbiyaLlah la ilaha illa Hu, alayHi tawakkaltu. SubhanAllah, WalhamduliLlah, La ilaha illa Allah, Allahu Akbar, La hawla wala quwwata illa biLlah.
