@@ -76,6 +76,7 @@
             :reference="randomAyah.reference"
             :source-link="randomAyah.sourceLink"
             @share="openShare(randomAyah)"
+            @image="openImage(randomAyah)"
           />
         </div>
       </Transition>
@@ -90,6 +91,17 @@
       :reference="shareItem?.reference || ''"
       :source-link="shareItem?.sourceLink || ''"
       @close="shareOpen = false"
+    />
+
+    <!-- Image Generator -->
+    <ImageGenerator
+      :show="imageOpen"
+      type="quran"
+      :text="imageItem?.text || ''"
+      :arabic-text="imageItem?.arabicText || ''"
+      :reference="imageItem?.reference || ''"
+      :source-link="imageItem?.sourceLink || ''"
+      @close="imageOpen = false"
     />
   </div>
 </template>
@@ -116,6 +128,8 @@ const collections = [
 const randomAyah = ref<any>(null)
 const shareOpen = ref(false)
 const shareItem = ref<any>(null)
+const imageOpen = ref(false)
+const imageItem = ref<any>(null)
 
 async function getRandomAyah() {
   try {
@@ -128,6 +142,11 @@ async function getRandomAyah() {
 function openShare(item: any) {
   shareItem.value = item
   shareOpen.value = true
+}
+
+function openImage(item: any) {
+  imageItem.value = { ...item, type: 'quran' }
+  imageOpen.value = true
 }
 </script>
 

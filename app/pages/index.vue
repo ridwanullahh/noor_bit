@@ -51,6 +51,7 @@
             :reference="dailyAyah.reference"
             :source-link="dailyAyah.sourceLink"
             @share="openShare('quran', dailyAyah)"
+            @image="openImage('quran', dailyAyah)"
             class="animate-fade-up delay-1"
           />
 
@@ -68,6 +69,7 @@
             :source-link="dailyHadith.sourceLink"
             :grade="dailyHadith.grade"
             @share="openShare('hadith', dailyHadith)"
+            @image="openImage('hadith', dailyHadith)"
             class="animate-fade-up delay-2"
           />
         </div>
@@ -195,6 +197,17 @@
       :source-link="shareData.sourceLink"
       @close="shareModalOpen = false"
     />
+
+    <!-- Image Generator -->
+    <ImageGenerator
+      :show="imageModalOpen"
+      :type="imageData.type"
+      :text="imageData.text"
+      :arabic-text="imageData.arabicText"
+      :reference="imageData.reference"
+      :source-link="imageData.sourceLink"
+      @close="imageModalOpen = false"
+    />
   </div>
 </template>
 
@@ -208,7 +221,9 @@ const loading = ref(true)
 const dailyHadith = ref<any>(null)
 const dailyAyah = ref<any>(null)
 const shareModalOpen = ref(false)
+const imageModalOpen = ref(false)
 const shareData = ref({ type: 'hadith' as 'hadith' | 'quran', text: '', arabicText: '', reference: '', sourceLink: '' })
+const imageData = ref({ type: 'hadith' as 'hadith' | 'quran', text: '', arabicText: '', reference: '', sourceLink: '' })
 
 const collections = [
   { id: 'bukhari', name: 'Sahih al-Bukhari', arabicName: 'صحيح البخاري', count: 7563 },
@@ -260,6 +275,17 @@ function openShare(type: 'hadith' | 'quran', data: any) {
     sourceLink: data.sourceLink || '',
   }
   shareModalOpen.value = true
+}
+
+function openImage(type: 'hadith' | 'quran', data: any) {
+  imageData.value = {
+    type,
+    text: data.text || '',
+    arabicText: data.arabicText || '',
+    reference: data.reference || '',
+    sourceLink: data.sourceLink || '',
+  }
+  imageModalOpen.value = true
 }
 
 onMounted(fetchDaily)

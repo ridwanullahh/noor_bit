@@ -13,14 +13,13 @@
     "start": "node .output/server/index.mjs"
   },
   "dependencies": {
+    "@nuxt/icon": "^1.12.0",
     "nuxt": "^4.3.1",
     "@nuxt/icon": "^1.12.0",
     "vue": "^3.5.29",
     "vue-router": "^4.6.4"
   },
-  "devDependencies": {
-    "@nuxt/icon": "^1.12.0"
-  },
+  "devDependencies": {},
   "engines": {
     "node": ">=22.14.0"
   }

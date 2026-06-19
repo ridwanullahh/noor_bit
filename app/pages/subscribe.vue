@@ -145,18 +145,25 @@ async function subscribe() {
   submitting.value = true
 
   try {
-    // Store subscription (for now, save to localStorage as demo; production would POST to server)
-    const subs = JSON.parse(localStorage.getItem('noorbit-subscriptions') || '[]')
-    subs.push({
-      ...toRaw(form),
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
+    await $fetch('/api/subscribe', {
+      method: 'POST',
+      body: {
+        email: form.email,
+        name: form.name,
+        quran: form.quran,
+        hadith: form.hadith,
+        frequency: form.frequency,
+        collections: form.collections,
+      },
     })
+
+    const subs = JSON.parse(localStorage.getItem('noorbit-subscriptions') || '[]')
+    subs.push({ ...toRaw(form), id: Date.now(), createdAt: new Date().toISOString() })
     localStorage.setItem('noorbit-subscriptions', JSON.stringify(subs))
 
     subscribed.value = true
-  } catch (e) {
-    console.error(e)
+  } catch (e: any) {
+    console.error('Subscription error:', e)
   } finally {
     submitting.value = false
   }

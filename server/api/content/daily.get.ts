@@ -1,18 +1,18 @@
 /**
  * BismiLlah Ar-Rahman Ar-Roheem
- * GET /api/content/daily — Get daily Quran ayah + Hadith combo
+ * GET /api/content/daily — Get daily Quran ayah + Hadith combo (deterministic per day)
  */
 export default defineEventHandler(async () => {
-    // Use the day of year as seed for consistent daily content
     const now = new Date()
     const dayOfYear = Math.floor(
         (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000
     )
+    const yearSeed = now.getFullYear() * 1000 + dayOfYear
 
     try {
         const [hadith, ayah] = await Promise.allSettled([
-            getRandomHadith(),
-            getRandomAyah(),
+            getSeededRandomHadith(yearSeed),
+            getSeededRandomAyah(yearSeed),
         ])
 
         return {

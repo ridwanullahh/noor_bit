@@ -25,11 +25,13 @@
             :key="h.hadithNumber"
             type="hadith"
             :text="h.text"
+            :arabic-text="h.arabicText"
             :reference="h.reference"
             :source-link="h.sourceLink"
             :grade="h.grade"
             compact
             @share="openShare(h)"
+            @image="openImage(h)"
             class="animate-fade-up"
           />
         </div>
@@ -67,6 +69,17 @@
       :source-link="shareItem?.sourceLink || ''"
       @close="shareOpen = false"
     />
+
+    <!-- Image Generator -->
+    <ImageGenerator
+      :show="imageOpen"
+      type="hadith"
+      :text="imageItem?.text || ''"
+      :arabic-text="imageItem?.arabicText || ''"
+      :reference="imageItem?.reference || ''"
+      :source-link="imageItem?.sourceLink || ''"
+      @close="imageOpen = false"
+    />
   </div>
 </template>
 
@@ -101,6 +114,8 @@ const page = ref(0)
 const pageSize = 20
 const shareOpen = ref(false)
 const shareItem = ref<any>(null)
+const imageOpen = ref(false)
+const imageItem = ref<any>(null)
 
 async function fetchHadiths() {
   loading.value = true
@@ -129,6 +144,11 @@ async function fetchHadiths() {
 function openShare(item: any) {
   shareItem.value = item
   shareOpen.value = true
+}
+
+function openImage(item: any) {
+  imageItem.value = { ...item, type: 'hadith' }
+  imageOpen.value = true
 }
 
 onMounted(fetchHadiths)

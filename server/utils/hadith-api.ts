@@ -110,6 +110,29 @@ export async function getHadithByNumber(collection: string, number: number): Pro
     }
 }
 
+// Seeded PRNG (simple LCG)
+function seededRandom(seed: number): () => number {
+    let s = seed
+    return () => {
+        s = (s * 1664525 + 1013904223) & 0xffffffff
+        return (s >>> 0) / 0xffffffff
+    }
+}
+
+// Get deterministic random hadith based on a seed (e.g., day of year)
+export async function getSeededRandomHadith(seed: number): Promise<HadithData> {
+    const rand = seededRandom(seed)
+    const collection = COLLECTIONS[Math.floor(rand() * COLLECTIONS.length)]
+    const number = Math.floor(rand() * collection.count) + 1
+
+    try {
+        return await getHadithByNumber(collection.id, number)
+    } catch {
+        const nawNum = Math.floor(rand() * 42) + 1
+        return await getHadithByNumber('nawawi', nawNum)
+    }
+}
+
 // Get random hadith
 export async function getRandomHadith(): Promise<HadithData> {
     // Pick a random collection and random number

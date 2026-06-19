@@ -190,6 +190,7 @@
               :source-link="preview.sourceLink"
               compact
               @share="() => {}"
+              @image="openPreviewImage"
             />
           </div>
           <button class="btn btn-outline btn-sm" style="margin-top:0.75rem;width:100%" @click="loadPreview">
@@ -206,6 +207,17 @@
           </div>
         </div>
       </Transition>
+
+      <!-- Image Generator -->
+      <ImageGenerator
+        :show="imageOpen"
+        :type="imageItem?.type || 'hadith'"
+        :text="imageItem?.text || ''"
+        :arabic-text="imageItem?.arabicText || ''"
+        :reference="imageItem?.reference || ''"
+        :source-link="imageItem?.sourceLink || ''"
+        @close="imageOpen = false"
+      />
     </div>
   </div>
 </template>
@@ -219,6 +231,14 @@ useSeoMeta({
 const saved = ref(false)
 const previewLoading = ref(false)
 const preview = ref<any>(null)
+const imageOpen = ref(false)
+const imageItem = ref<any>(null)
+
+function openPreviewImage() {
+  if (!preview.value) return
+  imageItem.value = preview.value
+  imageOpen.value = true
+}
 
 const scheduler = reactive({
   enabled: false,

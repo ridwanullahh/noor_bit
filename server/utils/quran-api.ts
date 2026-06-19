@@ -61,6 +61,23 @@ export async function getAyah(surah: number, ayah: number): Promise<AyahData> {
     }
 }
 
+// Seeded PRNG (simple LCG)
+function seededRandom(seed: number): () => number {
+    let s = seed
+    return () => {
+        s = (s * 1664525 + 1013904223) & 0xffffffff
+        return (s >>> 0) / 0xffffffff
+    }
+}
+
+// Get deterministic random ayah based on a seed
+export async function getSeededRandomAyah(seed: number): Promise<AyahData> {
+    const rand = seededRandom(seed + 7919)
+    const pick = popularSurahs[Math.floor(rand() * popularSurahs.length)]
+    const ayahNum = Math.floor(rand() * pick.ayahs) + 1
+    return await getAyah(pick.surah, ayahNum)
+}
+
 // Get random ayah
 export async function getRandomAyah(): Promise<AyahData> {
     // Total ayahs in Quran = 6236

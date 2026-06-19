@@ -73,6 +73,7 @@
             :grade="r.grade"
             compact
             @share="openShare(r)"
+            @image="openImage(r)"
             class="animate-fade-up"
           />
         </div>
@@ -114,6 +115,17 @@
       :source-link="shareItem?.sourceLink || ''"
       @close="shareOpen = false"
     />
+
+    <!-- Image Generator -->
+    <ImageGenerator
+      :show="imageOpen"
+      :type="imageItem?.type || 'hadith'"
+      :text="imageItem?.text || ''"
+      :arabic-text="imageItem?.arabicText || ''"
+      :reference="imageItem?.reference || ''"
+      :source-link="imageItem?.sourceLink || ''"
+      @close="imageOpen = false"
+    />
   </div>
 </template>
 
@@ -131,6 +143,8 @@ const searched = ref(false)
 const results = ref<any[]>([])
 const shareOpen = ref(false)
 const shareItem = ref<any>(null)
+const imageOpen = ref(false)
+const imageItem = ref<any>(null)
 
 async function search() {
   if (!query.value.trim()) return
@@ -211,6 +225,11 @@ async function loadRandom(type: 'hadith' | 'quran') {
 function openShare(item: any) {
   shareItem.value = item
   shareOpen.value = true
+}
+
+function openImage(item: any) {
+  imageItem.value = item
+  imageOpen.value = true
 }
 </script>
 
